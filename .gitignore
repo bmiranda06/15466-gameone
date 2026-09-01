@@ -7,3 +7,5 @@ dist/SDL3.dll
 dist/game
 dist/game.exe
 maek-cache.json
+dist/asset_pipeline
+dist/asset_pipeline.exe

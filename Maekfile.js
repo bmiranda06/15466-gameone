@@ -111,11 +111,13 @@ if (maek.OS === 'windows') {
 // cppFile: name of c++ file to compile
 // objFileBase (optional): base name object file to produce (if not supplied, set to options.objDir + '/' + cppFile without the extension)
 //returns objFile: objFileBase + a platform-dependant suffix ('.o' or '.obj')
+const load_save_png = maek.CPP('load_save_png.cpp');
+
 const game_objs = [
 	maek.CPP('PlayMode.cpp'),
 	maek.CPP('PPU466.cpp'),
 	maek.CPP('main.cpp'),
-	maek.CPP('load_save_png.cpp'),
+	load_save_png,
 	maek.CPP('Load.cpp'),
 	maek.CPP('data_path.cpp'),
 	maek.CPP('Mode.cpp'),
@@ -129,8 +131,15 @@ const game_objs = [
 //returns exeFile: exeFileBase + a platform-dependant suffix (e.g., '.exe' on windows)
 const game_exe = maek.LINK(game_objs, 'dist/game');
 
+// asset pipeline
+const asset_pipeline_exe = maek.LINK([
+	maek.CPP('asset_pipeline.cpp'),
+	load_save_png, ],
+	'dist/asset_pipeline'
+);
+
 //set the default target to the game (and copy the readme files):
-maek.TARGETS = [game_exe, ...copies];
+maek.TARGETS = [game_exe, asset_pipeline_exe, ...copies];
 
 //======================================================================
 //Now, onward to the code that makes all this work:
